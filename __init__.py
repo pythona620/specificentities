@@ -14,7 +14,7 @@ class TomatoSkill(MycroftSkill):
     def handle_do_you_like(self, message):
         tomato_type = message.data.get('type')
         if tomato_type is not None:
-            self.speak("Well, I'm not sure if I like " + tomato_type + " tomatoes.")
+            self.speak("Well, your specific keyword is " + tomato_type + " in your word.")
         else:
             self.speak('Of course I like tomatoes!')
 
