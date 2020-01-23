@@ -1,45 +1,23 @@
-# number adding
-from adapt.intent import IntentBuilder
-from mycroft.skills.core import MycroftSkill, intent_handler
-from mycroft.util.log import LOG, getLogger
+from mycroft import MycroftSkill, intent_file_handler
 
-__author__ = 'pythona620/prasad'
-LOGGER = getLogger(__name__)
+class TomatoSkill(MycroftSkill):
+    def __init__(self):
+        super().__init__()
 
-class NameAddingSkill(MycroftSkill):
+    @intent_handler('what.is.a.tomato.intent')
+    def handle_what_is(self, message):
+        self.speak_dialog('tomato.description')
 
-# MyNameIs = input("Ask user for something")
-# MyFriendNameIs = input("Ask user for something")
+    @intent_handler('do.you.like.intent')
+    def handle_do_you_like(self, message):
+        tomato_type = message.data.get('type')
+        if tomato_type is not None:
+            self.speak_dialog('like.tomato.type',{'type': tomato_type})
+        else:
+            self.speak_dialog('like.tomato.generic')
 
-# str3 = MyNameIs+MyFriendNameIs
-# c = MyNameIs +" "+"and"+" "+ MyFriendNameIs
+    def stop(self):
+        pass
 
-	myname = 0
-	myfriendname = 0
-	
-	def get_names(self, dialog):
-		while True:
-			yip = self.get_response(dialog)
-			try:
-				yip = 'str'
-				return yip
-			except ValueError:
-				self.speak_dialog("invalid.input")
-			except:
-				self.speak_dialog("input.error")
-
-	@intent_handler(IntentBuilder("").require("funny").optionally("Play").optionally("Suggest"))
-	def handle_start_game_intent(self, message):
-		self.speak_dialog("start.game")
-
-		# get myname
-		myname = self.get_names("get.myname")
-		# get myfriendname
-		myfriendname = self.get_names("get.myfriendname")
-		answer = myname + myfriendname
-		tr=answer['text']
-		self.speak_dialog("friends",{"answer":tr})
-	def stop(self):		
-		pass
 def create_skill():
-	return NameAddingSkill()
+    return TomatoSkill()
